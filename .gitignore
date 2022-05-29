@@ -1,2 +1,6 @@
 node_modules
+coverage
 .idea
+tasks-db.json
+test-db.json
+build

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "outDir": "build",
     "lib": ["esNext"],
     "module": "CommonJS",
     "strict": true,
