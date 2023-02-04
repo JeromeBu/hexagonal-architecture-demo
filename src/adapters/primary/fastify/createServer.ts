@@ -18,7 +18,7 @@ export const createServer = (config: Config) => {
 
   // Declare a route
   server.get("/", async (request, reply) => {
-    return { hello: "world" };
+    return { hello: "world", routes: ["/tasks GET | POST"] };
   });
 
   server.post("/tasks", async (request, reply) => {
