@@ -23,7 +23,7 @@ export const createServer = (config: Config) => {
 
   server.post("/tasks", async (request, reply) => {
     const body = request.body as Task;
-    if (!body.description) {
+    if (!body?.description) {
       reply.code(400).send({ error: "A description is required" });
     }
 

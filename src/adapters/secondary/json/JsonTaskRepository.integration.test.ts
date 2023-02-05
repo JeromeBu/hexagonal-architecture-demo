@@ -49,14 +49,13 @@ describe("JsonTaskRepository implementation", () => {
     });
   });
 
-  describe("methods getById", () => {
+  describe("methods getByDescription", () => {
     it("should get the saved data with specified Id", () => {
-      const taskInRepo = [goToTheCinema, learnCleanArchitectureTask];
-      writeFileSync(
-        filePath,
-        JSON.stringify([goToTheCinema, learnCleanArchitectureTask])
+      const tasksInRepo = [goToTheCinema, learnCleanArchitectureTask];
+      writeFileSync(filePath, JSON.stringify(tasksInRepo));
+      const retrievedTask = taskRepository.getByDescription(
+        goToTheCinema.description
       );
-      const retrievedTask = taskRepository.getByDescription("go-to-the-cinema");
       expectToEqual(retrievedTask, goToTheCinema);
     });
   });

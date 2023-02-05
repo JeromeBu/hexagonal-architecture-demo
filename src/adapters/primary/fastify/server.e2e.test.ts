@@ -16,7 +16,10 @@ describe("Fastify server", () => {
         url: "/",
       });
 
-      expectResponseFromApi(result, { status: 200, body: { hello: "world" } });
+      expectResponseFromApi(result, {
+        status: 200,
+        body: { hello: "world", routes: ["/tasks GET | POST"] },
+      });
     });
   });
 
@@ -28,7 +31,7 @@ describe("Fastify server", () => {
 
     expectResponseFromApi(failedResponse, {
       status: 400,
-      body: { error: "id and description are required" },
+      body: { error: "A description is required" },
     });
   });
 
@@ -61,7 +64,7 @@ describe("Fastify server", () => {
       });
       expectResponseFromApi(alreadyThereResponse, {
         status: 400,
-        body: "Task with id '123' already exists",
+        body: `Task with description '${task.description}' already exists`,
       });
     });
   });

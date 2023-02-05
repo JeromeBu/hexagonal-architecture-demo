@@ -5,16 +5,17 @@ type Dependencies = {
 };
 
 export const addTaskUseCase = (deps: Dependencies) => (description: string) => {
-  // const alreadyExistingTask = deps.taskRepository.getByDescription(description);
-  // if (taskAlreadyExists)
-  //   throw new Error(`Task with same description al '${task.id}' already exists`);
+  const alreadyExistingTask = deps.taskRepository.getByDescription(description);
+  if (alreadyExistingTask)
+    throw new Error(`Task with description '${description}' already exists`);
   deps.taskRepository.save({ description });
 };
 
 export const getAllTasksUseCase = (deps: Dependencies) => () =>
   deps.taskRepository.getAll();
 
-export const markAsDoneUseCase = (deps: Dependencies) => (taskId: string) => {};
+export const markAsDoneUseCase =
+  (deps: Dependencies) => (description: string) => {};
 
 // in class version :
 // class AddTaskUseCase {
