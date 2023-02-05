@@ -7,9 +7,9 @@ import {
 } from "./useCases";
 import { expectToEqual } from "../../testHelpers";
 
+const someTaskDescription = "Learn Clean architcture";
 const someTask: Task = {
-  id: "someId",
-  description: "Learn Clean architcture",
+  description: someTaskDescription,
 };
 
 describe("Use cases - unit tests", () => {
@@ -29,7 +29,7 @@ describe("Use cases - unit tests", () => {
       // -->>
 
       //When
-      addTask(someTask);
+      addTask(someTaskDescription);
       //Then
       expectToEqual(taskRepository.tasks, [someTask]);
     });
@@ -38,7 +38,7 @@ describe("Use cases - unit tests", () => {
       // Given
       taskRepository.tasks = [someTask];
       // Then
-      expect(() => addTask(someTask)).toThrowError(
+      expect(() => addTask(someTaskDescription)).toThrowError(
         "Task with id 'someId' already exists"
       );
     });
@@ -80,7 +80,7 @@ describe("Use cases - unit tests", () => {
     });
 
     it("throws if task not found", () => {
-      expect(() => markAsDone(someTask.id)).toThrow(
+      expect(() => markAsDone(someTaskDescription)).toThrow(
         "Task with id 'someId' not found"
       );
     });

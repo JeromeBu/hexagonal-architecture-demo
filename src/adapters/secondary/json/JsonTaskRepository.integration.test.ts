@@ -11,12 +11,10 @@ const readFile = (): Task[] => {
 };
 
 const learnCleanArchitectureTask: Task = {
-  id: "learn-clean-archi",
   description: "Learn Clean Architecture",
 };
 
 const goToTheCinema: Task = {
-  id: "go-to-the-cinema",
   description: "Go to the cinema",
 };
 
@@ -58,7 +56,7 @@ describe("JsonTaskRepository implementation", () => {
         filePath,
         JSON.stringify([goToTheCinema, learnCleanArchitectureTask])
       );
-      const retrievedTask = taskRepository.getById("go-to-the-cinema");
+      const retrievedTask = taskRepository.getByDescription("go-to-the-cinema");
       expectToEqual(retrievedTask, goToTheCinema);
     });
   });

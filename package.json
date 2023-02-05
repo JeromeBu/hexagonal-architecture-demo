@@ -2,12 +2,16 @@
   "name": "hexagonal-architecture-and-tdd-demo",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "dev-json": "REPOSITORY_MODE=JSON ts-node src/adapters/primary/fastify/startServer.ts",
-    "dev-memory": "ts-node src/adapters/primary/fastify/startServer.ts",
+    "dev-http-json": "REPOSITORY_MODE=JSON ts-node src/adapters/primary/fastify/startServer.ts",
+    "dev-http-in-memory": "ts-node src/adapters/primary/fastify/startServer.ts",
     "test": "jest",
+    "typecheck": "tsc --noEmit --watch",
     "build": "tsc -b",
-    "prod": "REPOSITORY_MODE=JSON node build/adapters/primary/fastify/startServer.js"
+    "dev-cli": "ts-node src/adapters/primary/cli/cli.ts",
+    "cli": "node --experimental-specifier-resolution=node build/adapters/primary/cli/cli.js",
+    "prod": "REPOSITORY_MODE=JSON node --experimental-specifier-resolution=node ./build/adapters/primary/fastify/startServer.js"
   },
   "keywords": [],
   "author": "Jérôme Burkard",

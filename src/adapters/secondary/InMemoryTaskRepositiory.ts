@@ -8,8 +8,8 @@ export class InMemoryTaskRepository implements TaskRepository {
     this._tasks.push(task);
   }
 
-  public getById(id: string): Task | undefined {
-    return this._tasks.find((task) => task.id === id);
+  public getByDescription(description: string): Task | undefined {
+    return this._tasks.find((task) => task.description === description);
   }
 
   getAll(): Task[] {

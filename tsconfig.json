@@ -3,12 +3,13 @@
     "target": "es6",
     "outDir": "build",
     "lib": ["esNext"],
-    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "module": "ES2022",
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
     "noImplicitOverride": true,
     "skipLibCheck": true /* Skip type checking of declaration files. */,
-    "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   }
 }

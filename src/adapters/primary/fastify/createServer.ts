@@ -23,11 +23,11 @@ export const createServer = (config: Config) => {
 
   server.post("/tasks", async (request, reply) => {
     const body = request.body as Task;
-    if (!body?.id || !body?.description) {
-      reply.code(400).send({ error: "id and description are required" });
+    if (!body.description) {
+      reply.code(400).send({ error: "A description is required" });
     }
 
-    return errorHandler(reply, () => useCases.addTask(body));
+    return errorHandler(reply, () => useCases.addTask(body.description));
   });
 
   server.get("/tasks", async (request, reply) => {

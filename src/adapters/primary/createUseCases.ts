@@ -6,6 +6,10 @@ import {
 import { InMemoryTaskRepository } from "../secondary/InMemoryTaskRepositiory";
 import { JsonTaskRepository } from "../secondary/json/JsonTaskRepository";
 
+import * as url from "url";
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 export interface Config {
   repositoryMode: "JSON" | "IN_MEMORY";
 }
