@@ -11,12 +11,10 @@ const readFile = (): Task[] => {
 };
 
 const learnCleanArchitectureTask: Task = {
-  id: "learn-clean-archi",
   description: "Learn Clean Architecture",
 };
 
 const goToTheCinema: Task = {
-  id: "go-to-the-cinema",
   description: "Go to the cinema",
 };
 
@@ -51,14 +49,13 @@ describe("JsonTaskRepository implementation", () => {
     });
   });
 
-  describe("methods getById", () => {
+  describe("methods getByDescription", () => {
     it("should get the saved data with specified Id", () => {
-      const taskInRepo = [goToTheCinema, learnCleanArchitectureTask];
-      writeFileSync(
-        filePath,
-        JSON.stringify([goToTheCinema, learnCleanArchitectureTask])
+      const tasksInRepo = [goToTheCinema, learnCleanArchitectureTask];
+      writeFileSync(filePath, JSON.stringify(tasksInRepo));
+      const retrievedTask = taskRepository.getByDescription(
+        goToTheCinema.description
       );
-      const retrievedTask = taskRepository.getById("go-to-the-cinema");
       expectToEqual(retrievedTask, goToTheCinema);
     });
   });

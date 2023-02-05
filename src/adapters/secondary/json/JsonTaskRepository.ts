@@ -17,8 +17,8 @@ export class JsonTaskRepository implements TaskRepository {
     return this.readFromFile();
   }
 
-  getById(id: string): Task | undefined {
-    return this.readFromFile().find((task) => task.id === id);
+  getByDescription(description: string): Task | undefined {
+    return this.readFromFile().find((task) => task.description === description);
   }
 
   private readFromFile(): Task[] {

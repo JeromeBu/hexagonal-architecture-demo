@@ -3,7 +3,7 @@ import {
   getAllTasksUseCase,
   markAsDoneUseCase,
 } from "../../domain/useCases/useCases";
-import { InMemoryTaskRepository } from "../secondary/InMemoryTaskRepositiory";
+import { InMemoryTaskRepository } from "../secondary/InMemoryTaskRepository";
 import { JsonTaskRepository } from "../secondary/json/JsonTaskRepository";
 
 export interface Config {
