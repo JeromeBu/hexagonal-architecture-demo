@@ -1,4 +1,4 @@
-import { InMemoryTaskRepository } from "../../adapters/secondary/InMemoryTaskRepositiory";
+import { InMemoryTaskRepository } from "../../adapters/secondary/InMemoryTaskRepository";
 import { Task } from "../entities/Task";
 import {
   addTaskUseCase,

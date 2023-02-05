@@ -3,4 +3,5 @@ coverage
 .idea
 tasks-db.json
 test-db.json
+src/adapters/secondary/json/test-db.json
 build
