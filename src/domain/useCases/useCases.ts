@@ -16,19 +16,3 @@ export const getAllTasksUseCase = (deps: Dependencies) => () =>
 
 export const markAsDoneUseCase =
   (deps: Dependencies) => (description: string) => {};
-
-// in class version :
-// class AddTaskUseCase {
-//   private taskRepository: TaskRepository;
-//
-//   constructor(taskRepository: TaskRepository) {
-//     this.taskRepository = taskRepository;
-//   }
-//
-//   execute(task: Task) {
-//     const taskAlreadyExists = this.taskRepository.getById(task.id);
-//     if (taskAlreadyExists)
-//       throw new Error(`Task with id '${task.id}' already exists`);
-//     this.taskRepository.save(task);
-//   }
-// }
