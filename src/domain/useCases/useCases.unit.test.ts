@@ -23,11 +23,6 @@ describe("Use cases - unit tests", () => {
     });
 
     it("adds a task to the repository", () => {
-      // <<-- done in beforeEach
-      const taskRepository = new InMemoryTaskRepository();
-      const addTask = addTaskUseCase({ taskRepository });
-      // -->>
-
       //When
       addTask(someTaskDescription);
       //Then
