@@ -1,9 +1,8 @@
 import { InMemoryTaskRepository } from "../../adapters/secondary/InMemoryTaskRepository";
 import { Task } from "../entities/Task";
 import {
-  addTaskUseCase,
-  getAllTasksUseCase,
-  markAsDoneUseCase,
+  AddTask, GetAllTasks, MarkAsDone
+
 } from "./useCases";
 import { expectToEqual } from "../../testHelpers";
 
@@ -15,16 +14,16 @@ const someTask: Task = {
 describe("Use cases - unit tests", () => {
   describe("Use case : addTask", () => {
     let taskRepository: InMemoryTaskRepository;
-    let addTask: ReturnType<typeof addTaskUseCase>;
+    let addTask: AddTask;
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      addTask = addTaskUseCase({ taskRepository });
+      addTask = new AddTask( taskRepository );
     });
 
     it("adds a task to the repository", () => {
       //When
-      addTask(someTaskDescription);
+      addTask.execute(someTaskDescription);
       //Then
       expectToEqual(taskRepository.tasks, [someTask]);
     });
@@ -33,7 +32,7 @@ describe("Use cases - unit tests", () => {
       // Given
       taskRepository.tasks = [someTask];
       // Then
-      expect(() => addTask(someTaskDescription)).toThrowError(
+      expect(() => addTask.execute(someTaskDescription)).toThrowError(
         `Task with description '${someTaskDescription}' already exists`
       );
     });
@@ -41,15 +40,15 @@ describe("Use cases - unit tests", () => {
 
   describe("Use case : getAllTasks", () => {
     let taskRepository: InMemoryTaskRepository;
-    let getAllTasks: ReturnType<typeof getAllTasksUseCase>;
+    let getAllTasks: GetAllTasks;
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      getAllTasks = getAllTasksUseCase({ taskRepository });
+      getAllTasks = new GetAllTasks( taskRepository );
     });
 
     it("returns [] when no tasks", () => {
-      const tasks = getAllTasks();
+      const tasks = getAllTasks.execute();
       expectToEqual(tasks, []);
     });
 
@@ -60,22 +59,22 @@ describe("Use cases - unit tests", () => {
       ];
       taskRepository.tasks = tasksInRepository;
 
-      const tasks = getAllTasks();
+      const tasks = getAllTasks.execute();
       expectToEqual(tasks, tasksInRepository);
     });
   });
 
   describe.skip("Use case : markAsDone", () => {
     let taskRepository: InMemoryTaskRepository;
-    let markAsDone: ReturnType<typeof markAsDoneUseCase>;
+    let markAsDone: MarkAsDone;
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      markAsDone = markAsDoneUseCase({ taskRepository });
+      markAsDone = new MarkAsDone( taskRepository );
     });
 
     it("throws if task not found", () => {
-      expect(() => markAsDone(someTaskDescription)).toThrow(
+      expect(() => markAsDone.execute(someTaskDescription)).toThrow(
         "Task with id 'someId' not found"
       );
     });

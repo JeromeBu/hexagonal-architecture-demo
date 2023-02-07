@@ -30,7 +30,7 @@ const beginCli = async () => {
 
   switch (answers.home) {
     case listTasks: {
-      const tasks = useCases.getAllTasks();
+      const tasks = useCases.getAllTasks.execute();
       console.info(
         tasks.length === 0
           ? "Aucune taches pour le moment\n"
@@ -48,12 +48,12 @@ const beginCli = async () => {
         },
       ]);
 
-      useCases.addTask(description);
+      useCases.addTask.execute(description);
       break;
     }
 
     case markAsDone: {
-      const tasks = useCases.getAllTasks();
+      const tasks = useCases.getAllTasks.execute();
       if (tasks.length === 0) {
         console.info("Vous n'avez aucune tache pour le moment");
         break;

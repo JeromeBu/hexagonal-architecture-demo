@@ -27,11 +27,13 @@ export const createServer = (config: Config) => {
       reply.code(400).send({ error: "A description is required" });
     }
 
-    return errorHandler(reply, () => useCases.addTask(body.description));
+    return errorHandler(reply, () =>
+      useCases.addTask.execute(body.description)
+    );
   });
 
   server.get("/tasks", async (request, reply) => {
-    const tasks = useCases.getAllTasks();
+    const tasks = useCases.getAllTasks.execute();
     return reply.code(200).send(tasks);
   });
 

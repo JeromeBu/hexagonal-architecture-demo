@@ -1,18 +1,29 @@
 import { TaskRepository } from "../port/TaskRepository";
 
-type Dependencies = {
-  taskRepository: TaskRepository;
-};
+export class AddTask {
+  constructor(private taskRepository: TaskRepository) {}
 
-export const addTaskUseCase = (deps: Dependencies) => (description: string) => {
-  const alreadyExistingTask = deps.taskRepository.getByDescription(description);
-  if (alreadyExistingTask)
-    throw new Error(`Task with description '${description}' already exists`);
-  deps.taskRepository.save({ description });
-};
+  public execute(description: string) {
+    const alreadyExistingTask =
+      this.taskRepository.getByDescription(description);
+    if (alreadyExistingTask)
+      throw new Error(`Task with description '${description}' already exists`);
+    this.taskRepository.save({ description });
+  }
+}
 
-export const getAllTasksUseCase = (deps: Dependencies) => () =>
-  deps.taskRepository.getAll();
+export class GetAllTasks {
+  constructor(private taskRepository: TaskRepository) {}
 
-export const markAsDoneUseCase =
-  (deps: Dependencies) => (description: string) => {};
+  public execute() {
+    return this.taskRepository.getAll();
+  }
+}
+
+export class MarkAsDone {
+  constructor(private taskRepository: TaskRepository) {}
+
+  public execute(description: string) {
+    "TODO"
+  }
+}

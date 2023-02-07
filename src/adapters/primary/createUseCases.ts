@@ -1,7 +1,7 @@
 import {
-  addTaskUseCase,
-  getAllTasksUseCase,
-  markAsDoneUseCase,
+  AddTask,
+  GetAllTasks,
+  MarkAsDone,
 } from "../../domain/useCases/useCases";
 import { InMemoryTaskRepository } from "../secondary/InMemoryTaskRepository";
 import { JsonTaskRepository } from "../secondary/json/JsonTaskRepository";
@@ -17,8 +17,8 @@ export const createUseCases = ({ repositoryMode }: Config) => {
       : new InMemoryTaskRepository();
 
   return {
-    addTask: addTaskUseCase({ taskRepository }),
-    getAllTasks: getAllTasksUseCase({ taskRepository }),
-    markTaskAsDone: markAsDoneUseCase({ taskRepository }),
+    addTask: new AddTask(taskRepository),
+    getAllTasks: new GetAllTasks(taskRepository),
+    markTaskAsDone: new MarkAsDone(taskRepository),
   };
 };
