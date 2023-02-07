@@ -1,4 +1,4 @@
-Présentation de l'architecture port / adatpateur
+Présentation de l'architecture port / adaptateur
 
 Version fonctionnelle sur "master", version classes sur la branche "class-style"
 
