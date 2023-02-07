@@ -32,6 +32,17 @@ export const createServer = (config: Config) => {
     );
   });
 
+  server.post("/mark-as-done", async (request, reply) => {
+    const body = request.body as Task;
+    if (!body?.description) {
+      reply.code(400).send({ error: "A description is required" });
+    }
+
+    return errorHandler(reply, () =>
+      useCases.markTaskAsDone.execute(body.description)
+    );
+  });
+
   server.get("/tasks", async (request, reply) => {
     const tasks = useCases.getAllTasks.execute();
     return reply.code(200).send(tasks);

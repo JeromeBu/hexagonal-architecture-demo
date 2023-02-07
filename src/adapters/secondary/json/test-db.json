@@ -1,1 +1,1 @@
-[{"description":"Go to the cinema"},{"description":"Learn Clean Architecture"}]
+[{"description":"Go to the cinema","isDone":false},{"description":"Learn Clean Architecture","isDone":false}]

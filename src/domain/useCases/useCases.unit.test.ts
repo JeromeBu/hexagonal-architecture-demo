@@ -1,14 +1,12 @@
 import { InMemoryTaskRepository } from "../../adapters/secondary/InMemoryTaskRepository";
 import { Task } from "../entities/Task";
-import {
-  AddTask, GetAllTasks, MarkAsDone
-
-} from "./useCases";
+import { AddTask, GetAllTasks, MarkAsDone } from "./useCases";
 import { expectToEqual } from "../../testHelpers";
 
 const someTaskDescription = "Learn Clean architcture";
 const someTask: Task = {
   description: someTaskDescription,
+  isDone: false,
 };
 
 describe("Use cases - unit tests", () => {
@@ -18,7 +16,7 @@ describe("Use cases - unit tests", () => {
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      addTask = new AddTask( taskRepository );
+      addTask = new AddTask(taskRepository);
     });
 
     it("adds a task to the repository", () => {
@@ -44,7 +42,7 @@ describe("Use cases - unit tests", () => {
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      getAllTasks = new GetAllTasks( taskRepository );
+      getAllTasks = new GetAllTasks(taskRepository);
     });
 
     it("returns [] when no tasks", () => {
@@ -55,7 +53,7 @@ describe("Use cases - unit tests", () => {
     it("returns all the tasks", () => {
       const tasksInRepository = [
         someTask,
-        { id: "someOtherId", description: "Go swimming" },
+        { description: "Go swimming", isDone: false },
       ];
       taskRepository.tasks = tasksInRepository;
 
@@ -64,26 +62,41 @@ describe("Use cases - unit tests", () => {
     });
   });
 
-  describe.skip("Use case : markAsDone", () => {
+  describe("Use case : markAsDone", () => {
     let taskRepository: InMemoryTaskRepository;
     let markAsDone: MarkAsDone;
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      markAsDone = new MarkAsDone( taskRepository );
+      markAsDone = new MarkAsDone(taskRepository);
     });
 
     it("throws if task not found", () => {
+      const someTaskDescription = "faire la vaisselle";
       expect(() => markAsDone.execute(someTaskDescription)).toThrow(
-        "Task with id 'someId' not found"
+        `Task with description '${someTaskDescription}' not found`
       );
     });
 
     it("throws when the task is already done", () => {
-      throw "TODO";
+      const taskDescription = "faire la vaisselle";
+      taskRepository.tasks = [
+        { description: "faire la vaisselle", isDone: true },
+      ];
+      expect(() => markAsDone.execute(taskDescription)).toThrow(
+        `Task already done`
+      );
     });
+
     it("marks the tasks as done if all is good", () => {
-      throw "TODO";
+      const taskDescription = "faire la vaisselle";
+      taskRepository.tasks = [
+        { description: "faire la vaisselle", isDone: false },
+      ];
+      markAsDone.execute(taskDescription);
+      expectToEqual(taskRepository.tasks, [
+        { description: "faire la vaisselle", isDone: true },
+      ]);
     });
   });
 });

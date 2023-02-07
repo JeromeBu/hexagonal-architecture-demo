@@ -34,7 +34,12 @@ const beginCli = async () => {
       console.info(
         tasks.length === 0
           ? "Aucune taches pour le moment\n"
-          : tasks.map(({ description }) => `- ${description}`).join("\n")
+          : tasks
+              .map(
+                ({ description, isDone }) =>
+                  `- ${description} | isDone: ${isDone}`
+              )
+              .join("\n")
       );
       break;
     }
@@ -64,16 +69,17 @@ const beginCli = async () => {
           name: "description",
           type: "list",
           message: "Quelle est tache voulez-vous marquer comme terminée ?\n>",
-          choices: [...tasks, { description: cancel }].map(
-            ({ description }) => ({
-              name: `- ${description}`,
+          choices: [...tasks, { description: cancel, isDone: false }].map(
+            ({ description, isDone }) => ({
+              name: `- ${description} | isDone: ${isDone}`,
               value: description,
             })
           ),
         },
       ]);
       if (description === cancel) break;
-      console.error("NOT implemented yet, do something with : ", description);
+      useCases.markTaskAsDone.execute(description);
+      break;
     }
   }
 

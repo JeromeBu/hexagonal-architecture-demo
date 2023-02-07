@@ -1,3 +1,4 @@
+import { Task } from "../entities/Task";
 import { TaskRepository } from "../port/TaskRepository";
 
 export class AddTask {
@@ -8,7 +9,7 @@ export class AddTask {
       this.taskRepository.getByDescription(description);
     if (alreadyExistingTask)
       throw new Error(`Task with description '${description}' already exists`);
-    this.taskRepository.save({ description });
+    this.taskRepository.save({ description, isDone: false });
   }
 }
 
@@ -24,6 +25,16 @@ export class MarkAsDone {
   constructor(private taskRepository: TaskRepository) {}
 
   public execute(description: string) {
-    "TODO"
+    const task = this.taskRepository.getByDescription(description);
+    if (!task) {
+      throw new Error(`Task with description '${description}' not found`);
+    }
+
+    if (task.isDone) {
+      throw new Error("Task already done");
+    }
+
+    const updatedTask: Task = { ...task, isDone: true };
+    this.taskRepository.save(updatedTask);
   }
 }

@@ -12,10 +12,12 @@ const readFile = (): Task[] => {
 
 const learnCleanArchitectureTask: Task = {
   description: "Learn Clean Architecture",
+  isDone: false,
 };
 
 const goToTheCinema: Task = {
   description: "Go to the cinema",
+  isDone: false,
 };
 
 describe("JsonTaskRepository implementation", () => {
