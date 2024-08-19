@@ -30,30 +30,30 @@ describe("JsonTaskRepository implementation", () => {
   });
 
   describe("method save", () => {
-    it("should save a new task in a JSON file", () => {
-      taskRepository.save(learnCleanArchitectureTask);
+    it("should save a new task in a JSON file", async () => {
+      await taskRepository.save(learnCleanArchitectureTask);
       const dataOnFile = readFile();
       expectToEqual(dataOnFile, [learnCleanArchitectureTask]);
     });
   });
 
   describe("methods getAll", () => {
-    it("should get the saved data", () => {
+    it("should get the saved data", async () => {
       const taskInRepo = [goToTheCinema, learnCleanArchitectureTask];
       writeFileSync(
         filePath,
         JSON.stringify([goToTheCinema, learnCleanArchitectureTask])
       );
-      const retrievedTasks = taskRepository.getAll();
+      const retrievedTasks = await taskRepository.getAll();
       expectToEqual(retrievedTasks, taskInRepo);
     });
   });
 
   describe("methods getByDescription", () => {
-    it("should get the saved data with specified Id", () => {
+    it("should get the saved data with specified Id", async () => {
       const tasksInRepo = [goToTheCinema, learnCleanArchitectureTask];
       writeFileSync(filePath, JSON.stringify(tasksInRepo));
-      const retrievedTask = taskRepository.getByDescription(
+      const retrievedTask = await taskRepository.getByDescription(
         goToTheCinema.description
       );
       expectToEqual(retrievedTask, goToTheCinema);

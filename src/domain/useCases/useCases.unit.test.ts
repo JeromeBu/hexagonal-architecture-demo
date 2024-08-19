@@ -19,7 +19,7 @@ describe("Use cases - unit tests", () => {
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      addTask = addTaskUseCase({ taskRepository });
+      addTask = addTaskUseCase(taskRepository);
     });
 
     it("adds a task to the repository", () => {
@@ -45,22 +45,22 @@ describe("Use cases - unit tests", () => {
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      getAllTasks = getAllTasksUseCase({ taskRepository });
+      getAllTasks = getAllTasksUseCase(taskRepository);
     });
 
-    it("returns [] when no tasks", () => {
-      const tasks = getAllTasks();
+    it("returns [] when no tasks", async () => {
+      const tasks = await getAllTasks();
       expectToEqual(tasks, []);
     });
 
-    it("returns all the tasks", () => {
+    it("returns all the tasks", async () => {
       const tasksInRepository = [
         someTask,
         { id: "someOtherId", description: "Go swimming" },
       ];
       taskRepository.tasks = tasksInRepository;
 
-      const tasks = getAllTasks();
+      const tasks = await getAllTasks();
       expectToEqual(tasks, tasksInRepository);
     });
   });
@@ -71,7 +71,7 @@ describe("Use cases - unit tests", () => {
 
     beforeEach(() => {
       taskRepository = new InMemoryTaskRepository();
-      markAsDone = markAsDoneUseCase({ taskRepository });
+      markAsDone = markAsDoneUseCase(taskRepository);
     });
 
     it("throws if task not found", () => {

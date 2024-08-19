@@ -7,17 +7,17 @@ export class JsonTaskRepository implements TaskRepository {
     if (!existsSync(this.filePath)) writeFileSync(this.filePath, "[]");
   }
 
-  save(task: Task): void {
+  async save(task: Task) {
     const tasks = this.readFromFile();
     tasks.push(task);
     writeFileSync(this.filePath, JSON.stringify(tasks));
   }
 
-  getAll(): Task[] {
+  async getAll() {
     return this.readFromFile();
   }
 
-  getByDescription(description: string): Task | undefined {
+  async getByDescription(description: string) {
     return this.readFromFile().find((task) => task.description === description);
   }
 

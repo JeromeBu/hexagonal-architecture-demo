@@ -1,7 +1,7 @@
 import { Task } from "../entities/Task";
 
 export interface TaskRepository {
-  save(task: Task): void;
-  getByDescription(description: string): Task | undefined;
-  getAll(): Task[];
+  save(task: Task): Promise<void>;
+  getByDescription(description: string): Promise<Task | undefined>;
+  getAll(): Promise<Task[]>;
 }

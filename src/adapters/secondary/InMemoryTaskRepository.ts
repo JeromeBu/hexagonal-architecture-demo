@@ -8,15 +8,17 @@ const slugify = (str: string) => str.trim().toLowerCase().replace(/\s+/g, "-");
 export class InMemoryTaskRepository implements TaskRepository {
   private _tasks: TasksByDescription = {};
 
-  public save(task: Task): void {
+  public async save(task: Task) {
     this._tasks[slugify(task.description)] = task;
   }
 
-  public getByDescription(description: string): Task | undefined {
+  public async getByDescription(
+    description: string
+  ): Promise<Task | undefined> {
     return this._tasks[slugify(description)];
   }
 
-  public getAll(): Task[] {
+  public async getAll() {
     return this.tasks;
   }
 

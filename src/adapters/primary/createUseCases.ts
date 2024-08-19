@@ -17,8 +17,8 @@ export const createUseCases = ({ repositoryMode }: Config) => {
       : new InMemoryTaskRepository();
 
   return {
-    addTask: addTaskUseCase({ taskRepository }),
-    getAllTasks: getAllTasksUseCase({ taskRepository }),
-    markTaskAsDone: markAsDoneUseCase({ taskRepository }),
+    addTask: addTaskUseCase(taskRepository),
+    getAllTasks: getAllTasksUseCase(taskRepository),
+    markTaskAsDone: markAsDoneUseCase(taskRepository),
   };
 };
