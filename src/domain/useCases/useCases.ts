@@ -1,4 +1,13 @@
+import { Task } from "../entities/Task";
 import { TaskRepository } from "../port/TaskRepository";
+
+class AlreadyExistingTaskError {
+  readonly _tag = "AlreadyExistingTaskError";
+  readonly message: string;
+  constructor(task: Task) {
+    this.message = `Task with description '${task.description}' already exists`;
+  }
+}
 
 export const addTaskUseCase =
   (taskRepository: TaskRepository) => async (description: string) => {
@@ -6,7 +15,7 @@ export const addTaskUseCase =
       description
     );
     if (alreadyExistingTask)
-      throw new Error(`Task with description '${description}' already exists`);
+      throw new AlreadyExistingTaskError(alreadyExistingTask);
     await taskRepository.save({ description });
   };
 
