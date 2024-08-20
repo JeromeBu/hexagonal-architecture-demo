@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import { InMemoryTaskRepository } from "../../adapters/secondary/InMemoryTaskRepository";
 import { Task } from "../entities/Task";
 import {
@@ -22,18 +23,20 @@ describe("Use cases - unit tests", () => {
       addTask = addTaskUseCase(taskRepository);
     });
 
-    it("adds a task to the repository", () => {
+    it("adds a task to the repository", async () => {
       //When
-      addTask(someTaskDescription);
+      await addTask(someTaskDescription);
       //Then
       expectToEqual(taskRepository.tasks, [someTask]);
     });
 
-    it("throws if the task already exists", () => {
+    it("throws if the task already exists", async () => {
       // Given
       taskRepository.tasks = [someTask];
       // Then
-      expect(() => addTask(someTaskDescription)).toThrowError(
+      await expect(() =>
+        Effect.runPromise(addTask(someTaskDescription))
+      ).rejects.toThrowError(
         `Task with description '${someTaskDescription}' already exists`
       );
     });
@@ -49,7 +52,7 @@ describe("Use cases - unit tests", () => {
     });
 
     it("returns [] when no tasks", async () => {
-      const tasks = await getAllTasks();
+      const tasks = await Effect.runPromise(getAllTasks());
       expectToEqual(tasks, []);
     });
 
@@ -60,7 +63,7 @@ describe("Use cases - unit tests", () => {
       ];
       taskRepository.tasks = tasksInRepository;
 
-      const tasks = await getAllTasks();
+      const tasks = await Effect.runPromise(getAllTasks());
       expectToEqual(tasks, tasksInRepository);
     });
   });

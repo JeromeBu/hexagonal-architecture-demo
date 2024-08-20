@@ -1,14 +1,24 @@
+import { Cause, Effect, Exit } from "effect";
 import fastify, { FastifyReply } from "fastify";
 import { Task } from "../../../domain/entities/Task";
 import { createUseCases, Config } from "../createUseCases";
 
-const errorHandler = (reply: FastifyReply, cb: () => unknown) => {
-  try {
-    const result = cb();
-    reply.code(200).send(result);
-  } catch (error: any) {
-    reply.code(400).send(error.message);
-  }
+const errorHandler = async (
+  reply: FastifyReply,
+  cb: () => Promise<Exit.Exit<unknown, Error>>
+) => {
+  (await cb()).pipe(
+    Exit.match({
+      onSuccess: (result) => reply.code(200).send(result),
+      onFailure: (cause) => {
+        if (Cause.isFailType(cause)) {
+          return reply.code(400).send(cause.error.message);
+        }
+
+        return reply.code(500).send(cause);
+      },
+    })
+  );
 };
 
 export const createServer = (config: Config) => {
@@ -27,11 +37,13 @@ export const createServer = (config: Config) => {
       reply.code(400).send({ error: "A description is required" });
     }
 
-    return errorHandler(reply, () => useCases.addTask(body.description));
+    return errorHandler(reply, () =>
+      Effect.runPromiseExit(useCases.addTask(body.description))
+    );
   });
 
   server.get("/tasks", async (request, reply) => {
-    const tasks = useCases.getAllTasks();
+    const tasks = await Effect.runPromise(useCases.getAllTasks());
     return reply.code(200).send(tasks);
   });
 

@@ -1,3 +1,4 @@
+import { Effect, Option } from "effect";
 import { Task } from "../../domain/entities/Task";
 import { TaskRepository } from "../../domain/port/TaskRepository";
 
@@ -8,18 +9,18 @@ const slugify = (str: string) => str.trim().toLowerCase().replace(/\s+/g, "-");
 export class InMemoryTaskRepository implements TaskRepository {
   private _tasks: TasksByDescription = {};
 
-  public async save(task: Task) {
+  public save(task: Task) {
     this._tasks[slugify(task.description)] = task;
+    return Effect.void;
   }
 
-  public async getByDescription(
-    description: string
-  ): Promise<Task | undefined> {
-    return this._tasks[slugify(description)];
+  public getByDescription(description: string): Option.Option<Task> {
+    const task = this._tasks[slugify(description)];
+    return task ? Option.some(task) : Option.none();
   }
 
-  public async getAll() {
-    return this.tasks;
+  public getAll() {
+    return Effect.succeed(this.tasks);
   }
 
   // for test purpose

@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import { readFileSync, writeFileSync } from "fs";
 import { Task } from "../../../domain/entities/Task";
 import { expectToEqual } from "../../../testHelpers";
@@ -44,7 +45,7 @@ describe("JsonTaskRepository implementation", () => {
         filePath,
         JSON.stringify([goToTheCinema, learnCleanArchitectureTask])
       );
-      const retrievedTasks = await taskRepository.getAll();
+      const retrievedTasks = await Effect.runPromise(taskRepository.getAll());
       expectToEqual(retrievedTasks, taskInRepo);
     });
   });
@@ -53,8 +54,8 @@ describe("JsonTaskRepository implementation", () => {
     it("should get the saved data with specified Id", async () => {
       const tasksInRepo = [goToTheCinema, learnCleanArchitectureTask];
       writeFileSync(filePath, JSON.stringify(tasksInRepo));
-      const retrievedTask = await taskRepository.getByDescription(
-        goToTheCinema.description
+      const retrievedTask = await Effect.runPromise(
+        taskRepository.getByDescription(goToTheCinema.description)
       );
       expectToEqual(retrievedTask, goToTheCinema);
     });

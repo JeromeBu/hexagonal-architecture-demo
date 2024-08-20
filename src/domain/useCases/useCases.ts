@@ -1,23 +1,23 @@
+import { Effect, Option } from "effect";
 import { Task } from "../entities/Task";
 import { TaskRepository } from "../port/TaskRepository";
 
-class AlreadyExistingTaskError {
+class AlreadyExistingTaskError extends Error {
   readonly _tag = "AlreadyExistingTaskError";
-  readonly message: string;
+
   constructor(task: Task) {
-    this.message = `Task with description '${task.description}' already exists`;
+    super(`Task with description '${task.description}' already exists`);
   }
 }
 
 export const addTaskUseCase =
-  (taskRepository: TaskRepository) => async (description: string) => {
-    const alreadyExistingTask = await taskRepository.getByDescription(
-      description
+  (taskRepository: TaskRepository) => (description: string) =>
+    taskRepository.getByDescription(description).pipe(
+      Option.match({
+        onSome: (task) => Effect.fail(new AlreadyExistingTaskError(task)),
+        onNone: () => taskRepository.save({ description }),
+      })
     );
-    if (alreadyExistingTask)
-      throw new AlreadyExistingTaskError(alreadyExistingTask);
-    await taskRepository.save({ description });
-  };
 
 export const getAllTasksUseCase = (taskRepository: TaskRepository) => () =>
   taskRepository.getAll();

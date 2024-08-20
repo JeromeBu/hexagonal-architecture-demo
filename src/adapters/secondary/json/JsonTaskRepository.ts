@@ -1,3 +1,4 @@
+import { Effect, Option } from "effect";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { Task } from "../../../domain/entities/Task";
 import { TaskRepository } from "../../../domain/port/TaskRepository";
@@ -7,18 +8,21 @@ export class JsonTaskRepository implements TaskRepository {
     if (!existsSync(this.filePath)) writeFileSync(this.filePath, "[]");
   }
 
-  async save(task: Task) {
+  save(task: Task) {
     const tasks = this.readFromFile();
     tasks.push(task);
     writeFileSync(this.filePath, JSON.stringify(tasks));
+    return Effect.void;
   }
 
-  async getAll() {
-    return this.readFromFile();
+  getAll() {
+    return Effect.succeed(this.readFromFile());
   }
 
-  async getByDescription(description: string) {
-    return this.readFromFile().find((task) => task.description === description);
+  getByDescription(description: string) {
+    return Option.fromNullable(
+      this.readFromFile().find((task) => task.description === description)
+    );
   }
 
   private readFromFile(): Task[] {
