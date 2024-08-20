@@ -43,7 +43,7 @@ describe("Fastify server", () => {
       });
       expectResponseFromApi(initialList, { status: 200, body: [] });
 
-      const task: Task = { description: "My task" };
+      const task: Task = { description: "My task", isDone: false };
       const addTaskResponse = await server.inject({
         method: "POST",
         url: "/tasks",

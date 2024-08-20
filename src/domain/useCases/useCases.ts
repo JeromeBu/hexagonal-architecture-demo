@@ -15,7 +15,7 @@ export const addTaskUseCase =
     taskRepository.getByDescription(description).pipe(
       Option.match({
         onSome: (task) => Effect.fail(new AlreadyExistingTaskError(task)),
-        onNone: () => taskRepository.save({ description }),
+        onNone: () => taskRepository.save({ description, isDone: false }),
       })
     );
 
@@ -23,4 +23,8 @@ export const getAllTasksUseCase = (taskRepository: TaskRepository) => () =>
   taskRepository.getAll();
 
 export const markAsDoneUseCase =
-  (taskRepository: TaskRepository) => async (description: string) => {};
+  (taskRepository: TaskRepository) => async (description: string) =>
+    Effect.gen(function* () {
+      const task = yield* taskRepository.getByDescription(description);
+      const updatedTask = { ...task, done: true };
+    });

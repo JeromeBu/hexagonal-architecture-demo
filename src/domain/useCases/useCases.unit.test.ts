@@ -11,6 +11,7 @@ import { expectToEqual } from "../../testHelpers";
 const someTaskDescription = "Learn Clean architcture";
 const someTask: Task = {
   description: someTaskDescription,
+  isDone: false,
 };
 
 describe("Use cases - unit tests", () => {
@@ -57,9 +58,9 @@ describe("Use cases - unit tests", () => {
     });
 
     it("returns all the tasks", async () => {
-      const tasksInRepository = [
+      const tasksInRepository: Task[] = [
         someTask,
-        { id: "someOtherId", description: "Go swimming" },
+        { description: "Go swimming", isDone: false },
       ];
       taskRepository.tasks = tasksInRepository;
 
