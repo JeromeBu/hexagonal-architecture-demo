@@ -20,7 +20,7 @@ export const createUseCases = ({ repositoryMode }: Config) => {
   return {
     addTask: withRunPromiseExit(addTaskUseCase(taskRepository)),
     getAllTasks: withRunPromiseExit(getAllTasksUseCase(taskRepository)),
-    markTaskAsDone: markAsDoneUseCase(taskRepository),
+    markTaskAsDone: withRunPromiseExit(markAsDoneUseCase(taskRepository)),
   };
 };
 

@@ -8,7 +8,7 @@
     "test:unit": "jest --testRegex=.unit.test.ts --watch",
     "test:e2e": "jest --testRegex=.e2e.test.ts",
     "test:integration": "jest --testRegex=.integration.test.ts --runInBand",
-    "typecheck": "tsc --noEmit --watch",
+    "typecheck": "tsc --noEmit",
     "build": "tsc -b",
     "dev-cli": "ts-node src/adapters/primary/cli/cli.ts",
     "cli": "node build/adapters/primary/cli/cli.js",
