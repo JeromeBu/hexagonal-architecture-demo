@@ -3,7 +3,7 @@ import fastify, { FastifyReply } from "fastify";
 import { Task } from "../../../domain/entities/Task";
 import { createUseCases, Config } from "../createUseCases";
 
-const errorHandler = async (
+const sendHttpResponse = async (
   reply: FastifyReply,
   cb: () => Promise<Exit.Exit<unknown, Error>>
 ) => {
@@ -37,14 +37,11 @@ export const createServer = (config: Config) => {
       reply.code(400).send({ error: "A description is required" });
     }
 
-    return errorHandler(reply, () =>
-      Effect.runPromiseExit(useCases.addTask(body.description))
-    );
+    return sendHttpResponse(reply, () => useCases.addTask(body.description));
   });
 
-  server.get("/tasks", async (request, reply) => {
-    const tasks = await Effect.runPromise(useCases.getAllTasks());
-    return reply.code(200).send(tasks);
+  server.get("/tasks", async (_request, reply) => {
+    return sendHttpResponse(reply, useCases.getAllTasks);
   });
 
   return server;

@@ -1,6 +1,6 @@
 console.log("REACHED CLI");
 
-import { Effect } from "effect";
+import { Exit } from "effect";
 import inquirer from "inquirer";
 import { createUseCases } from "../createUseCases";
 
@@ -31,7 +31,9 @@ const beginCli = async () => {
 
   switch (answers.home) {
     case listTasks: {
-      const tasks = await Effect.runPromise(useCases.getAllTasks());
+      const tasksExit = await useCases.getAllTasks();
+      if (Exit.isFailure(tasksExit)) throw tasksExit.cause;
+      const tasks = tasksExit.value;
       console.info(
         tasks.length === 0
           ? "Aucune taches pour le moment\n"
@@ -49,12 +51,15 @@ const beginCli = async () => {
         },
       ]);
 
-      await Effect.runPromise(useCases.addTask(description));
+      await useCases.addTask(description);
       break;
     }
 
     case markAsDone: {
-      const tasks = await Effect.runPromise(useCases.getAllTasks());
+      const tasksExit = await useCases.getAllTasks();
+      if (Exit.isFailure(tasksExit)) throw tasksExit.cause;
+      const tasks = tasksExit.value;
+
       if (tasks.length === 0) {
         console.info("Vous n'avez aucune tache pour le moment");
         break;
